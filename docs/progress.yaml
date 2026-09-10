@@ -1,0 +1,46 @@
+meta:
+  projeto: java-certification-journey
+  descricao: Laboratorio pessoal de preparacao para Oracle Java SE 21 Developer Professional
+  certificacao: "Oracle Certified Professional: Java SE 21 Developer"
+  exame: 1Z0-830
+  baseline: "java 21.0.2"
+  secundario: "java 25 (delta, fase 2)"
+  cronograma: docs/roadmap/16-weeks.md
+  criado_em: "2026-09-10"
+  semana_atual: 1
+
+# Fonte de verdade do progresso.
+# Ciclo de vida de topicos: planned (planejado) -> studying (em estudo) -> review (revisao) -> done (concluido).
+# NUNCA marcar done sem evidencia (testes/notas demonstrando o topico).
+
+topicos:
+  language:     { status: planned }
+  oop:          { status: planned }
+  exceptions:   { status: planned }
+  generics:     { status: planned }
+  collections:  { status: planned }
+  functional:   { status: planned }
+  streams:      { status: planned }
+  datetime:     { status: planned }
+  io:           { status: planned }
+  modules:      { status: planned }
+  annotations:  { status: planned }
+  reflection:   { status: planned }
+  jdbc:         { status: planned }
+  concurrency:  { status: planned }
+
+# Nota: JDBC e reflection estao fora dos objetivos 1Z0-830 (mantidos por relevancia profissional).
+# Localization (objetivo oficial) e tratado dentro de datetime/.
+
+exames:
+  diagnostic:   { status: pending, data: null, nota: null, relatorio: "exams/diagnostic/" }
+  mock-01:      { status: pending, data: null, nota: null, relatorio: "exams/mock-01/" }
+  mock-02:      { status: pending, data: null, nota: null, relatorio: "exams/mock-02/" }
+  mock-03:      { status: pending, data: null, nota: null, relatorio: "exams/mock-03/" }
+  final:        { status: pending, data: null, nota: null, relatorio: "exams/final/" }
+
+java25:
+  delta:      { status: pending }
+  language:   { status: pending }
+  apis:       { status: pending }
+  migration:  { status: pending }
