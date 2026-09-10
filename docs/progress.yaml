@@ -33,7 +33,7 @@ topicos:
 # Localization (objetivo oficial) e tratado dentro de datetime/.
 
 exames:
-  diagnostic:   { status: pending, data: null, nota: null, relatorio: "exams/diagnostic/" }
+  diagnostic:   { status: in_progress, data: null, nota: null, relatorio: "exams/diagnostic/" }
   mock-01:      { status: pending, data: null, nota: null, relatorio: "exams/mock-01/" }
   mock-02:      { status: pending, data: null, nota: null, relatorio: "exams/mock-02/" }
   mock-03:      { status: pending, data: null, nota: null, relatorio: "exams/mock-03/" }

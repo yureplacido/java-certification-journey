@@ -1,0 +1,151 @@
+# ============================================================================
+# SESSÃO SINTÉTICA — EXEMPLO DO MODELO (docs/exams/exam-session-spec.md §11)
+#
+# Este arquivo NÃO representa progresso real. É uma sessão de teste criada
+# para validar a estrutura de persistência de uma sessão interrompida na Q30
+# de uma prova de 50 questões.
+#
+# Referencia uma definição hipotética: mock-03, version 1 (50 questões,
+# 120 min) — ainda NÃO criada em exams/. Nada aqui alimenta
+# docs/progress.yaml.
+# ============================================================================
+
+schemaVersion: 1
+
+sessionId: "2026-09-10-mock-03-01"
+examId: mock-03
+examVersion: 1
+status: PAUSED
+
+startedAt: "2026-09-10T14:30:00-03:00"
+lastActivityAt: "2026-09-10T15:05:00-03:00"
+
+# Interrompida na Q30: é a questão a reexibir na retomada.
+currentQuestion: Q30
+
+# 35 minutos ativos (7200 - 2100 = 5100 s restantes). Pausa não conta tempo.
+elapsedSeconds: 2100
+remainingSeconds: 5100
+
+# Contadores derivados das entries em `questions` (ver §8 do spec).
+totalQuestions: 50
+answeredQuestions: 16
+skippedQuestions: 2
+visitedQuestions: 30
+flaggedQuestions: 4
+
+questions:
+  # --- Q01 a Q30: já percorridas (visited) ---
+  Q01:
+    status: ANSWERED
+    answer: B
+    updatedAt: "2026-09-10T14:31:20-03:00"
+  Q02:
+    status: ANSWERED
+    answer: D
+    updatedAt: "2026-09-10T14:32:10-03:00"
+  Q03:
+    status: SKIPPED
+    updatedAt: "2026-09-10T14:33:05-03:00"
+  Q04:
+    status: ANSWERED
+    answer: A
+    updatedAt: "2026-09-10T14:34:00-03:00"
+  Q05:
+    status: ANSWERED
+    answer: C
+    updatedAt: "2026-09-10T14:35:15-03:00"
+  Q06:
+    status: ANSWERED
+    answer: B
+    flagged: true
+    updatedAt: "2026-09-10T14:36:40-03:00"
+  Q07:
+    status: VISITED
+    updatedAt: "2026-09-10T14:37:30-03:00"
+  Q08:
+    status: ANSWERED
+    answer: D
+    updatedAt: "2026-09-10T14:39:00-03:00"
+  Q09:
+    status: VISITED
+    updatedAt: "2026-09-10T14:40:10-03:00"
+  Q10:
+    status: ANSWERED
+    answer: A
+    updatedAt: "2026-09-10T14:41:30-03:00"
+  Q11:
+    status: VISITED
+    updatedAt: "2026-09-10T14:42:20-03:00"
+  Q12:
+    status: ANSWERED
+    answer: C
+    flagged: true
+    updatedAt: "2026-09-10T14:43:50-03:00"
+  Q13:
+    status: VISITED
+    updatedAt: "2026-09-10T14:44:40-03:00"
+  Q14:
+    status: ANSWERED
+    answer: B
+    updatedAt: "2026-09-10T14:46:00-03:00"
+  Q15:
+    status: VISITED
+    updatedAt: "2026-09-10T14:47:10-03:00"
+  Q16:
+    status: ANSWERED
+    answer: A
+    updatedAt: "2026-09-10T14:48:30-03:00"
+  Q17:
+    status: VISITED
+    updatedAt: "2026-09-10T14:49:20-03:00"
+  Q18:
+    status: VISITED
+    updatedAt: "2026-09-10T14:50:40-03:00"
+  Q19:
+    status: VISITED
+    updatedAt: "2026-09-10T14:51:30-03:00"
+  Q20:
+    status: ANSWERED
+    answer: C
+    updatedAt: "2026-09-10T14:52:50-03:00"
+  Q21:
+    status: VISITED
+    updatedAt: "2026-09-10T14:53:40-03:00"
+  Q22:
+    status: ANSWERED
+    answer: D
+    updatedAt: "2026-09-10T14:54:50-03:00"
+  Q23:
+    status: VISITED
+    updatedAt: "2026-09-10T14:55:30-03:00"
+  Q24:
+    status: ANSWERED
+    answer: A
+    updatedAt: "2026-09-10T14:56:40-03:00"
+  Q25:
+    status: VISITED
+    flagged: true
+    updatedAt: "2026-09-10T14:57:30-03:00"
+  Q26:
+    status: ANSWERED
+    answer: B
+    updatedAt: "2026-09-10T14:58:20-03:00"
+  Q27:
+    status: SKIPPED
+    updatedAt: "2026-09-10T14:59:10-03:00"
+  Q28:
+    status: ANSWERED
+    answer: C
+    updatedAt: "2026-09-10T15:00:40-03:00"
+  Q29:
+    status: ANSWERED
+    answer: D
+    updatedAt: "2026-09-10T15:02:00-03:00"
+  Q30:
+    status: VISITED
+    flagged: true
+    updatedAt: "2026-09-10T15:04:30-03:00"
+
+  # --- Q31 a Q50: não visitadas (NOT_VISITED). Entries omitidas equivalem a
+  # NOT_VISITED (convenção §5.3): não precisam estar listadas.
