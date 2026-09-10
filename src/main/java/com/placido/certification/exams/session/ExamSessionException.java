@@ -10,6 +10,7 @@ public final class ExamSessionException extends RuntimeException {
         SESSION_NOT_FOUND,
         SESSION_NOT_RESUMABLE,
         SESSION_NOT_PAUSABLE,
+        SESSION_NOT_FINISHABLE,
     }
 
     private final ErrorKind kind;
