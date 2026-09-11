@@ -14,6 +14,8 @@ public final class ExamSessionException extends RuntimeException {
         SESSION_NOT_FINISHABLE,
         SESSION_NOT_GRADABLE,
         SESSION_NOT_ANALYZABLE,
+        PROGRESS_UNREADABLE,
+        PROGRESS_INVALID,
     }
 
     private final ErrorKind kind;

@@ -13,9 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Supplier;
@@ -97,9 +95,8 @@ public final class ExamSessionAnalyzer {
             throw invalidStore(file, "result ausente na sessão: execute grade antes de analyze");
         }
 
-        Derived derived = derive(questions, definition);
-        checkSummaryConsistent(derived, result, file);
-        checkBySectionConsistent(derived.bySection, result.get("bySection"), file);
+        SessionComputation computation = SessionComputation.compute(questions, definition);
+        computation.requireConsistentResult(result, file);
 
         String nowStamp = SessionTime.timestamp(clock.get());
 
@@ -114,24 +111,24 @@ public final class ExamSessionAnalyzer {
         }
 
         Path artifact = artifactFile(sessionId);
-        writeArtifact(artifact, sessionId, examId, examVersion, nowStamp, derived);
+        writeArtifact(artifact, sessionId, examId, examVersion, nowStamp, computation);
         return new AnalysisResult(outcome, sessionId, file, artifact);
     }
 
     private void writeArtifact(Path artifact, String sessionId, String examId, int examVersion,
-            String nowStamp, Derived derived) {
+            String nowStamp, SessionComputation computation) {
         Map<String, Object> content = new LinkedHashMap<>();
         content.put("schemaVersion", ARTIFACT_SCHEMA_VERSION);
         content.put("sessionId", sessionId);
         content.put("examId", examId);
         content.put("examVersion", examVersion);
         content.put("analyzedAt", nowStamp);
-        content.put("summary", derived.summary);
-        content.put("correctQuestions", derived.correctQuestions);
-        content.put("wrongQuestions", derived.wrongQuestions);
-        content.put("unansweredQuestions", derived.unansweredQuestions);
-        content.put("bySection", derived.bySection);
-        content.put("byTopic", derived.byTopic);
+        content.put("summary", computation.summaryMap());
+        content.put("correctQuestions", computation.correctQuestions());
+        content.put("wrongQuestions", computation.wrongQuestions());
+        content.put("unansweredQuestions", computation.unansweredQuestions());
+        content.put("bySection", computation.bySection());
+        content.put("byTopic", computation.byTopic());
 
         try {
             Files.createDirectories(artifact.getParent());
@@ -144,131 +141,6 @@ public final class ExamSessionAnalyzer {
 
     private Path artifactFile(String sessionId) {
         return examsRoot.resolve("docs").resolve("study-log").resolve(sessionId + ".analysis.yaml");
-    }
-
-    private static Derived derive(Map<String, Map<String, Object>> questions, ExamDefinition definition) {
-        int correct = 0;
-        int wrong = 0;
-        int unanswered = 0;
-        List<String> correctQuestions = new ArrayList<>();
-        List<String> wrongQuestions = new ArrayList<>();
-        List<String> unansweredQuestions = new ArrayList<>();
-        Map<Integer, int[]> bySection = new LinkedHashMap<>();
-        Map<String, int[]> byTopic = new LinkedHashMap<>();
-
-        for (String id : definition.questionOrder()) {
-            QuestionVerdict verdict = GradingRules.classify(questions.get(id),
-                    String.valueOf(definition.answers().get(id).get("correctOption")));
-            switch (verdict) {
-                case CORRECT -> {
-                    correct++;
-                    correctQuestions.add(id);
-                }
-                case WRONG -> {
-                    wrong++;
-                    wrongQuestions.add(id);
-                }
-                case UNANSWERED -> {
-                    unanswered++;
-                    unansweredQuestions.add(id);
-                }
-            }
-            int section = sectionOf(definition, id);
-            int[] sectionBuckets = bySection.computeIfAbsent(section, k -> new int[2]);
-            sectionBuckets[1]++;
-            if (verdict == QuestionVerdict.CORRECT) {
-                sectionBuckets[0]++;
-            }
-            String topic = String.valueOf(definition.questions().get(id).get("topic"));
-            int[] topicBuckets = byTopic.computeIfAbsent(topic, k -> new int[2]);
-            topicBuckets[1]++;
-            if (verdict == QuestionVerdict.CORRECT) {
-                topicBuckets[0]++;
-            }
-        }
-
-        int scorePercent = GradingRules.scorePercent(correct, definition.totalQuestions());
-        boolean passing = scorePercent >= definition.passingScore();
-
-        Map<String, Object> summary = new LinkedHashMap<>();
-        summary.put("correct", correct);
-        summary.put("wrong", wrong);
-        summary.put("unanswered", unanswered);
-        summary.put("scorePercent", scorePercent);
-        summary.put("passing", passing);
-        return new Derived(summary, correct, wrong, unanswered, scorePercent, passing,
-                correctQuestions, wrongQuestions, unansweredQuestions,
-                toSectionMap(bySection), toTopicMap(byTopic));
-    }
-
-    private static Map<Integer, Map<String, Object>> toSectionMap(Map<Integer, int[]> raw) {
-        Map<Integer, Map<String, Object>> result = new LinkedHashMap<>();
-        for (Map.Entry<Integer, int[]> entry : raw.entrySet()) {
-            result.put(entry.getKey(), countMap(entry.getValue()));
-        }
-        return result;
-    }
-
-    private static Map<String, Map<String, Object>> toTopicMap(Map<String, int[]> raw) {
-        Map<String, Map<String, Object>> result = new LinkedHashMap<>();
-        for (Map.Entry<String, int[]> entry : raw.entrySet()) {
-            result.put(entry.getKey(), countMap(entry.getValue()));
-        }
-        return result;
-    }
-
-    private static Map<String, Object> countMap(int[] buckets) {
-        Map<String, Object> count = new LinkedHashMap<>();
-        count.put("correct", buckets[0]);
-        count.put("total", buckets[1]);
-        return count;
-    }
-
-    private static void checkSummaryConsistent(Derived derived, Map<String, Object> result, Path file) {
-        checkInt(result, "correct", derived.correct, file);
-        checkInt(result, "wrong", derived.wrong, file);
-        checkInt(result, "unanswered", derived.unanswered, file);
-        checkInt(result, "scorePercent", derived.scorePercent, file);
-        Object storedPassing = result.get("passing");
-        if (!(storedPassing instanceof Boolean) || derived.passing != (Boolean) storedPassing) {
-            throw invalidStore(file, "result.passing inconsistente com a derivação: " + storedPassing);
-        }
-    }
-
-    private static void checkInt(Map<String, Object> result, String key, int expected, Path file) {
-        Object value = result.get(key);
-        if (!(value instanceof Number number) || number.intValue() != expected) {
-            throw invalidStore(file, "result." + key + " inconsistente com a derivação: " + value);
-        }
-    }
-
-    private static void checkBySectionConsistent(Map<Integer, Map<String, Object>> derived,
-            Object rawStored, Path file) {
-        Map<String, Object> stored = SessionYaml.asStringMap(rawStored);
-        if (stored == null) {
-            throw invalidStore(file, "result.bySection ausente ou inválido");
-        }
-        if (stored.size() != derived.size()) {
-            throw invalidStore(file, "result.bySection com " + stored.size()
-                    + " seções, derivação tem " + derived.size());
-        }
-        for (Map.Entry<String, Object> entry : stored.entrySet()) {
-            int section = Integer.parseInt(entry.getKey());
-            Map<String, Object> expected = derived.get(section);
-            if (expected == null) {
-                throw invalidStore(file, "result.bySection[" + section + "] não existe na derivação");
-            }
-            Map<String, Object> actual = SessionYaml.asStringMap(entry.getValue());
-            if (actual == null) {
-                throw invalidStore(file, "result.bySection[" + section + "] deve ser um mapa");
-            }
-            checkInt(actual, "correct", ((Number) expected.get("correct")).intValue(), file);
-            checkInt(actual, "total", ((Number) expected.get("total")).intValue(), file);
-        }
-    }
-
-    private static int sectionOf(ExamDefinition definition, String id) {
-        return ((Number) definition.questions().get(id).get("section")).intValue();
     }
 
     private static ExamSessionStatus parseStatus(Map<String, Object> data, Path file) {
@@ -318,11 +190,5 @@ public final class ExamSessionAnalyzer {
     private static ExamSessionException invalidStore(Path file, String detail) {
         return new ExamSessionException(SESSION_STORE_INVALID,
                 "Sessão inválida em " + file + ": " + detail);
-    }
-
-    private record Derived(Map<String, Object> summary, int correct, int wrong, int unanswered,
-            int scorePercent, boolean passing, List<String> correctQuestions,
-            List<String> wrongQuestions, List<String> unansweredQuestions,
-            Map<Integer, Map<String, Object>> bySection, Map<String, Map<String, Object>> byTopic) {
     }
 }
