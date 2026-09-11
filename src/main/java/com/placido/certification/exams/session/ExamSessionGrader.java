@@ -132,26 +132,18 @@ public final class ExamSessionGrader {
             }
             buckets.put("total", ((Number) buckets.get("total")).intValue() + 1);
 
-            Map<String, Object> entry = questions.get(id);
-            boolean answered = false;
-            if (entry != null && "ANSWERED".equals(entry.get("status"))) {
-                Object answer = entry.get("answer");
-                if (answer != null && !String.valueOf(answer).isBlank()) {
-                    answered = true;
-                    Object key = definition.answers().get(id).get("correctOption");
-                    if (String.valueOf(answer).equals(String.valueOf(key))) {
-                        correct++;
-                        buckets.put("correct", ((Number) buckets.get("correct")).intValue() + 1);
-                    } else {
-                        wrong++;
-                    }
+            QuestionVerdict verdict = GradingRules.classify(questions.get(id),
+                    String.valueOf(definition.answers().get(id).get("correctOption")));
+            switch (verdict) {
+                case CORRECT -> {
+                    correct++;
+                    buckets.put("correct", ((Number) buckets.get("correct")).intValue() + 1);
                 }
-            }
-            if (!answered) {
-                unanswered++;
+                case WRONG -> wrong++;
+                case UNANSWERED -> unanswered++;
             }
         }
-        int scorePercent = (int) Math.round(100.0 * correct / definition.totalQuestions());
+        int scorePercent = GradingRules.scorePercent(correct, definition.totalQuestions());
         boolean passing = scorePercent >= definition.passingScore();
         return new Computation(correct, wrong, unanswered, scorePercent, passing, bySection);
     }
