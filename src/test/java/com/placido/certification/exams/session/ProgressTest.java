@@ -119,7 +119,7 @@ class ProgressTest {
         String original = fixtureProgress();
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
 
-        ProgressResult result = new Progress(temp).run();
+        ProgressResult result = new Progress(examsRoot()).run();
 
         assertEquals(1, result.sessionsScanned());
         assertEquals(1, result.attemptsWritten());
@@ -150,7 +150,7 @@ class ProgressTest {
         fixtureProgress();
         analyzed(SESSION_A, ALL_CORRECT, () -> ANALYZE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> attempt = onlyAttempt();
         assertEquals("ANALYZED", attempt.get("status"));
@@ -164,7 +164,7 @@ class ProgressTest {
         graded(SESSION_B, HALF_CORRECT, () -> GRADE_AT_2);
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> exam = examOf("mock-01");
         assertEquals("2026-09-10T16:00:00-03:00", exam.get("data"));
@@ -182,7 +182,7 @@ class ProgressTest {
         graded(SESSION_B, ALL_CORRECT, () -> GRADE_AT);
         graded(SESSION_C, HALF_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> melhor = cast(examOf("mock-01").get("melhor"));
         assertEquals(SESSION_A, melhor.get("sessionId"));
@@ -197,7 +197,7 @@ class ProgressTest {
         fixtureProgress();
         seed(SESSION_A, IN_PROGRESS, ALL_CORRECT, 4);
 
-        ProgressResult result = new Progress(temp).run();
+        ProgressResult result = new Progress(examsRoot()).run();
 
         assertEquals(1, result.sessionsScanned());
         assertEquals(1, result.sessionsIgnored());
@@ -218,7 +218,7 @@ class ProgressTest {
         seed("2026-09-10-mock-01-04", FINISHED, ALL_CORRECT, 4);
         seed("2026-09-10-mock-01-05", ABANDONED, ALL_CORRECT, 4);
 
-        ProgressResult result = new Progress(temp).run();
+        ProgressResult result = new Progress(examsRoot()).run();
 
         assertEquals(5, result.sessionsScanned());
         assertEquals(5, result.sessionsIgnored());
@@ -231,7 +231,7 @@ class ProgressTest {
         fixtureProgress();
         seed(SESSION_A, GRADED_STATUS(), ALL_CORRECT, 4);
 
-        ProgressResult result = new Progress(temp).run();
+        ProgressResult result = new Progress(examsRoot()).run();
 
         assertEquals(1, result.sessionsIgnored());
         assertEquals(0, result.attemptsWritten());
@@ -244,7 +244,7 @@ class ProgressTest {
         analyzed(SESSION_A, ALL_CORRECT, () -> ANALYZE_AT);
         Files.delete(artifactOf(SESSION_A));
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> attempt = onlyAttempt();
         assertEquals("ANALYZED", attempt.get("status"));
@@ -256,7 +256,7 @@ class ProgressTest {
         fixtureProgress();
         graded(SESSION_A, HALF_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> attempt = onlyAttempt();
         assertEquals(2, num(attempt, "correct"));
@@ -271,7 +271,7 @@ class ProgressTest {
         fixtureProgress();
         graded(SESSION_A, HALF_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> sections = cast(onlyAttempt().get("sections"));
         assertEquals(List.of(1, 2), new ArrayList<>(sections.keySet()));
@@ -286,7 +286,7 @@ class ProgressTest {
         fixtureProgress();
         graded(SESSION_A, HALF_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> topics = cast(onlyAttempt().get("topics"));
         assertEquals(List.of("language-basics", "oop"), new ArrayList<>(topics.keySet()));
@@ -302,7 +302,7 @@ class ProgressTest {
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
         graded(SESSION_B, HALF_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> sections = cast(examOf("mock-01").get("sections"));
         assertEquals(List.of(1, 2), new ArrayList<>(sections.keySet()));
@@ -318,7 +318,7 @@ class ProgressTest {
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
         graded(SESSION_B, HALF_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> topics = cast(examOf("mock-01").get("topics"));
         assertEquals(3, num(cast(topics.get("language-basics")), "correct"));
@@ -333,7 +333,7 @@ class ProgressTest {
         writeDefinition("mock-09", validDefinitionFor("mock-09"));
         graded("2026-09-10-mock-09-01", ALL_CORRECT, () -> GRADE_AT, "mock-09");
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> progress = parsedProgress();
         assertFalse(progress.containsKey("total"));
@@ -351,7 +351,7 @@ class ProgressTest {
         String original = fixtureProgress();
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         assertHumanPartsPreserved(original);
         Map<String, Object> exam = examOf("mock-01");
@@ -369,7 +369,7 @@ class ProgressTest {
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
         List<String> before = relativeFiles();
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         List<String> after = relativeFiles();
         assertEquals(before, after);
@@ -381,7 +381,7 @@ class ProgressTest {
         String original = fixtureProgress();
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         String regenerated = Files.readString(progressFile());
         assertEquals(region(original, "topicos:", "exames:"), region(regenerated, "topicos:", "exames:"));
@@ -393,10 +393,10 @@ class ProgressTest {
     void twoRunsProduceByteIdenticalOutput() throws IOException {
         fixtureProgress();
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
         String first = Files.readString(progressFile());
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         assertEquals(first, Files.readString(progressFile()));
     }
@@ -405,11 +405,11 @@ class ProgressTest {
     void reGradeOrReAnalyzeKeepsSingleAttemptPerSessionId() throws IOException {
         fixtureProgress();
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
         assertEquals(1, list(examOf("mock-01").get("tentativas")).size());
 
         tamperResult(SESSION_A, "gradedAt", "2026-09-10T17:00:00-03:00");
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         List<?> tentativas = list(examOf("mock-01").get("tentativas"));
         assertEquals(1, tentativas.size());
@@ -420,9 +420,9 @@ class ProgressTest {
     @Test
     void missingSessionsDirectoryYieldsEmptyDerivation() throws IOException {
         fixtureProgress();
-        Files.deleteIfExists(temp.resolve("sessions"));
+        Files.deleteIfExists(examsRoot().resolve("sessions"));
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         assertEquals(0, list(examOf("mock-01").get("tentativas")).size());
         assertNull(examOf("mock-01").get("nota"));
@@ -432,10 +432,10 @@ class ProgressTest {
     void sessionFilesNotMatchingNamingPatternAreIgnored() throws IOException {
         fixtureProgress();
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
-        Files.writeString(temp.resolve("sessions").resolve("2026-09-10-mock-01-1.yaml"), "stray\n");
-        Files.writeString(temp.resolve("sessions").resolve("session-example.yaml"), "stray\n");
+        Files.writeString(examsRoot().resolve("sessions").resolve("2026-09-10-mock-01-1.yaml"), "stray\n");
+        Files.writeString(examsRoot().resolve("sessions").resolve("session-example.yaml"), "stray\n");
 
-        ProgressResult result = new Progress(temp).run();
+        ProgressResult result = new Progress(examsRoot()).run();
 
         assertEquals(1, result.sessionsScanned());
         assertEquals(1, result.attemptsWritten());
@@ -444,10 +444,10 @@ class ProgressTest {
     @Test
     void corruptedSessionYamlFailsHardAndLeavesProgressIntact() throws IOException {
         String original = fixtureProgress();
-        Files.createDirectories(temp.resolve("sessions"));
-        Files.writeString(temp.resolve("sessions").resolve(SESSION_A + ".yaml"), "a: [\ninvalid");
+        Files.createDirectories(examsRoot().resolve("sessions"));
+        Files.writeString(examsRoot().resolve("sessions").resolve(SESSION_A + ".yaml"), "a: [\ninvalid");
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(SESSION_STORE_INVALID, e.kind());
         assertTrue(Files.readString(progressFile()).equals(original));
@@ -459,7 +459,7 @@ class ProgressTest {
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
         tamperResult(SESSION_A, "correct", 99);
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(SESSION_STORE_INVALID, e.kind());
         assertTrue(e.getMessage().contains("correct"));
@@ -470,13 +470,14 @@ class ProgressTest {
     void divergingArtifactTopicsFailsHardAndLeavesProgressIntact() throws IOException {
         String original = fixtureProgress();
         analyzed(SESSION_A, ALL_CORRECT, () -> ANALYZE_AT);
+        assertTrue(Files.isRegularFile(artifactOf(SESSION_A)));
         Map<String, Object> artifact = SessionYaml.parse(artifactOf(SESSION_A));
         Map<String, Object> tamperedByTopic = new LinkedHashMap<>();
         tamperedByTopic.put("language-basics", Map.of("correct", 99, "total", 2));
         artifact.put("byTopic", tamperedByTopic);
         Files.writeString(artifactOf(SESSION_A), SessionYaml.dump(artifact));
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(SESSION_STORE_INVALID, e.kind());
         assertTrue(Files.readString(progressFile()).equals(original));
@@ -488,7 +489,7 @@ class ProgressTest {
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
         writeDefinition("mock-01", VALID_DEFINITION.replace("version: 1", "version: 2"));
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(EXAM_DEFINITION_VERSION_MISMATCH, e.kind());
         assertTrue(Files.readString(progressFile()).equals(original));
@@ -498,9 +499,9 @@ class ProgressTest {
     void missingDefinitionFailsHardAndLeavesProgressIntact() throws IOException {
         String original = fixtureProgress();
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
-        Files.delete(temp.resolve("mock-01").resolve("definition.yaml"));
+        Files.delete(examsRoot().resolve("mock-01").resolve("definition.yaml"));
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(EXAM_DEFINITION_NOT_FOUND, e.kind());
         assertTrue(Files.readString(progressFile()).equals(original));
@@ -512,7 +513,7 @@ class ProgressTest {
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
         writeDefinition("mock-01", VALID_DEFINITION.replace("examId: mock-01", "examId: mock-02"));
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(EXAM_DEFINITION_INVALID, e.kind());
         assertTrue(Files.readString(progressFile()).equals(original));
@@ -524,7 +525,7 @@ class ProgressTest {
         String broken = "a: [\ninvalid";
         Files.writeString(progressFile(), broken);
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(PROGRESS_INVALID, e.kind());
         assertTrue(Files.readString(progressFile()).equals(broken));
@@ -536,7 +537,7 @@ class ProgressTest {
         String withoutExames = "meta:\n  projeto: x\n";
         Files.writeString(progressFile(), withoutExames);
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(PROGRESS_INVALID, e.kind());
         assertTrue(Files.readString(progressFile()).equals(withoutExames));
@@ -546,7 +547,7 @@ class ProgressTest {
     void unreadableProgressSignalsUnreadable() throws IOException {
         Files.createDirectories(temp.resolve("docs").resolve("progress.yaml"));
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(PROGRESS_UNREADABLE, e.kind());
     }
@@ -555,11 +556,11 @@ class ProgressTest {
     void sessionIdMismatchingFileNameFailsHard() throws IOException {
         fixtureProgress();
         writeDefinition("mock-01", VALID_DEFINITION);
-        Files.createDirectories(temp.resolve("sessions"));
-        Files.writeString(temp.resolve("sessions").resolve(SESSION_A + ".yaml"),
+        Files.createDirectories(examsRoot().resolve("sessions"));
+        Files.writeString(examsRoot().resolve("sessions").resolve(SESSION_A + ".yaml"),
                 "sessionId: 2026-09-10-mock-01-99\nexamId: mock-01\n");
 
-        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(temp).run());
+        ExamSessionException e = assertThrows(ExamSessionException.class, () -> new Progress(examsRoot()).run());
 
         assertEquals(SESSION_STORE_INVALID, e.kind());
     }
@@ -574,7 +575,7 @@ class ProgressTest {
         Files.createDirectories(temp.resolve("docs").resolve("progress.yaml.tmp"));
 
         ExamSessionException e = assertThrows(ExamSessionException.class,
-                () -> new Progress(temp).run());
+                () -> new Progress(examsRoot()).run());
 
         assertEquals(PROGRESS_UNREADABLE, e.kind());
         assertEquals(original, Files.readString(progressFile()));
@@ -586,9 +587,9 @@ class ProgressTest {
         fixtureProgress();
         writeDefinition("mock-01", VALID_DEFINITION.replace("version: 1", "version: 2"));
         seed(SESSION_A, FINISHED, ALL_CORRECT, 4, "mock-01", 2);
-        new ExamSessionGrader(temp, () -> GRADE_AT).grade(SESSION_A);
+        new ExamSessionGrader(examsRoot(), () -> GRADE_AT).grade(SESSION_A);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         Map<String, Object> attempt = onlyAttempt();
         assertEquals(2, num(attempt, "examVersion"));
@@ -618,13 +619,13 @@ class ProgressTest {
             java.util.function.Supplier<OffsetDateTime> clock, String examId) throws IOException {
         writeDefinition(examId, validDefinitionFor(examId));
         seed(sessionId, FINISHED, questions, 4, examId);
-        new ExamSessionGrader(temp, clock).grade(sessionId);
+        new ExamSessionGrader(examsRoot(), clock).grade(sessionId);
     }
 
     private void analyzed(String sessionId, Map<String, Map<String, Object>> questions,
             java.util.function.Supplier<OffsetDateTime> clock) throws IOException {
         graded(sessionId, questions, () -> GRADE_AT);
-        new ExamSessionAnalyzer(temp, clock).analyze(sessionId);
+        new ExamSessionAnalyzer(examsRoot(), clock).analyze(sessionId);
     }
 
     private Map<String, Object> examOf(String examId) throws IOException {
@@ -655,6 +656,10 @@ class ProgressTest {
         return PROGRESS_FIXTURE;
     }
 
+    private Path examsRoot() {
+        return temp.resolve("exams");
+    }
+
     private Path progressFile() {
         return temp.resolve("docs").resolve("progress.yaml");
     }
@@ -668,7 +673,7 @@ class ProgressTest {
     }
 
     private void writeDefinition(String examId, String content) throws IOException {
-        Path dir = temp.resolve(examId);
+        Path dir = examsRoot().resolve(examId);
         Files.createDirectories(dir);
         Files.writeString(dir.resolve("definition.yaml"), content);
     }
@@ -687,7 +692,7 @@ class ProgressTest {
     private void seed(String sessionId, ExamSessionStatus status,
             Map<String, Map<String, Object>> questions, int totalQuestions, String examId,
             int examVersion) throws IOException {
-        Path sessions = temp.resolve("sessions");
+        Path sessions = examsRoot().resolve("sessions");
         Files.createDirectories(sessions);
         ExamSession session = new ExamSession(1, sessionId, examId, examVersion, status,
                 STARTED_AT, LAST_ACTIVITY_AT, FINISHED_AT, "Q03",
@@ -703,7 +708,7 @@ class ProgressTest {
     }
 
     private void tamperResult(String sessionId, String key, Object value) throws IOException {
-        Path file = temp.resolve("sessions").resolve(sessionId + ".yaml");
+        Path file = examsRoot().resolve("sessions").resolve(sessionId + ".yaml");
         Map<String, Object> data = SessionYaml.parse(file);
         resultOf(data).put(key, value);
         Files.writeString(file, SessionYaml.dump(data));
@@ -720,7 +725,7 @@ class ProgressTest {
         String original = fixtureProgress();
         graded(SESSION_A, ALL_CORRECT, () -> GRADE_AT);
 
-        new Progress(temp).run();
+        new Progress(examsRoot()).run();
 
         String regenerated = Files.readString(progressFile());
         // byte-level: as regiões compartilhadas (head e tail) são cópia textual integral

@@ -416,10 +416,107 @@ uma definição `mock-03` que ainda não existe.
 
 ---
 
-## 12. Notas de implementação futura (fora deste escopo)
+## 12. Operação de resposta (ExamSessionAnswerer)
 
-- Comandos do OpenCode (`exam start|resume|pause|finish|grade|abandon`)
+Esta seção define o contrato da operação pública de registro de resposta
+individual em uma sessão de exame.
+
+### 12.1 Propósito e assinatura
+
+```
+ExamSessionAnswerer.answer(sessionId, questionId, answer) → AnswerResult
+```
+
+Registra a resposta de uma questão na sessão, atualizando o estado da questão
+para `ANSWERED`, preserva a resposta anterior apenas como substituição, e
+deriva os contadores do estado resultante. **Não** registra `VISITED`/`SKIPPED`/
+`flagged` — esses são operações fora deste contrato (futuras).
+
+### 12.2 Pré-condições (ordem de validação)
+
+| Condição | Falha => erro |
+| --- | --- |
+| Sessão existe (`exams/sessions/<sessionId>.yaml`) | `SESSION_NOT_FOUND` |
+| Sessão está `IN_PROGRESS` | `SESSION_NOT_ANSWERABLE` |
+| Exam Definition existe e `version` casa com `examVersion` da sessão | `EXAM_DEFINITION_NOT_FOUND` / `EXAM_DEFINITION_VERSION_MISMATCH` |
+| `questionId` ∈ `questionOrder` da definição | `QUESTION_NOT_IN_EXAM` |
+| `answer` é uma opção permitida para a questão | `INVALID_ANSWER_OPTION` |
+
+> Estados `PAUSED`, `FINISHED`, `GRADED`, `ANALYZED` e `ABANDONED` **não** são
+> respondíveis. Sessão pausada exige `resume` antes de responder (§7).
+
+### 12.3 Validação da resposta contra as opções
+
+- Se a entrada `answers['<questionId>']` da definição declarar uma lista
+  `options`, a resposta deve pertencer a essa lista.
+- Caso contrário, o **fallback é `{A, B, C, D}`** para `format: single-choice`
+  (o formato do exame 1Z0-830). Esse fallback é implícito e determinístico.
+- A comparação é **sensível a maiúsculas** (`B` ≠ `b`).
+
+### 12.4 Transição de estado da questão
+
+A questão indexada por `questionId` recebe:
+
+```yaml
+<questionId>:
+  status: ANSWERED
+  answer: <answer>            # já normalizada como string
+  flagged: <preservado>       # se já existia; não é criado/removido
+  updatedAt: <now>            # timestamp da operação
+```
+
+- Resposta registrada em questão `NOT_VISITED`, `VISITED` ou `SKIPPED` é uma
+  **primeira resposta** (outcome `ANSWERED`).
+- Questão já `ANSWERED` aceita **substituição** da resposta (outcome `UPDATED`)
+  e resposta idêntica é **idempotente** (outcome `UNCHANGED`).
+- `flagged` é **ortogonal ao status** (§2.3) e é preservado tal qual estava.
+
+### 12.5 Efeitos em contadores, tempo e navegação
+
+- Contadores são **derivados** do novo estado (nunca incrementados cegamente):
+  - `answeredQuestions` = nº de `status == ANSWERED`
+  - `skippedQuestions`  = nº de `status == SKIPPED`
+  - `visitedQuestions`  = nº de `status != NOT_VISITED`
+  - `flaggedQuestions`  = nº de `flagged == true`
+- **Tempo:** consome-se tempo ativo desde `lastActivityAt` até `now` usando o
+  mesmo cálculo de `SessionTime` (resume/pause/finish); `elapsedSeconds`/
+  `remainingSeconds` atualizados e `lastActivityAt = now`. Registrar resposta
+  com `remainingSeconds == 0` é permitido (a expiração é transição de
+  `resume`/`pause`/`finish`, fora deste contrato).
+- `currentQuestion` **não muda** — preservada como estava.
+
+### 12.6 Persistência
+
+Escrita **atômica e segura**: grava em arquivo temporário e move com
+`ATOMIC_MOVE` (fallback para `REPLACE_EXISTING`), mesmo padrão usado pelo
+`Progress`. Erros de escrita => `SESSION_STORE_UNREADABLE`.
+
+### 12.7 Determinismo
+
+Para as mesmas entradas (`sessionId`, `questionId`, `answer`) e o mesmo
+relógio, a operação produz o mesmo estado persistido e o mesmo `AnswerResult`.
+Não há fontes de não-determinismo (ordem de iteração, hash, etc.) no resultado
+acadêmico da sessão.
+
+### 12.8 Invariantes verificáveis após a operação (herdadas da §8)
+
+```
+answeredQuestions == contagem(status == ANSWERED)
+skippedQuestions  == contagem(status == SKIPPED)
+visitedQuestions  == contagem(status != NOT_VISITED)
+flaggedQuestions  == contagem(flagged == true)
+elapsedSeconds + remainingSeconds == durationSeconds
+currentQuestion é um questionId canônico
+```
+
+---
+
+## 13. Notas de implementação futura (fora deste escopo)
+
+- Comandos do OpenCode (`exam start|resume|pause|finish|grade|abandon|answer`)
   devem apenas **transicionar estados validando a tabela da §4** e atualizar o
   arquivo; nunca inferir conteúdo.
+- `visit`, `skip` e `flag` (transições de questão da §2.3) ainda **não** têm
+  operação implementada; `ExamSessionAnswerer` cobre apenas a resposta.
 - Um `validate` pode checar invariantes (§8) de todas as sessões sem tocar em
   conteúdo.

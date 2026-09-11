@@ -1,0 +1,117 @@
+# Exam Definition — 1Z0-830 Diagnostic (50 questões)
+#
+# Layout conforme docs/exams/exam-session-spec.md §2.1.
+# Fonte: exams/diagnostic/prova-dia1.md (seções/ordem) + Answer Key
+# (exams/diagnostic/answersheet.md). Gabarito transcrito exatamente;
+# difficulty uniforme "medium" (a prova não classifica dificuldade por questão).
+
+examId: diagnostic
+version: 1
+examType: diagnostic
+javaVersion: "21"
+totalQuestions: 50
+durationSeconds: 7200
+passingScore: 68
+questionOrder: [Q01, Q02, Q03, Q04, Q05, Q06, Q07, Q08, Q09, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26, Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34, Q35, Q36, Q37, Q38, Q39, Q40, Q41, Q42, Q43, Q44, Q45, Q46, Q47, Q48, Q49, Q50]
+questions:
+  Q01: { topic: language-basics,  section: 1,  difficulty: medium }
+  Q02: { topic: language-basics,  section: 1,  difficulty: medium }
+  Q03: { topic: language-basics,  section: 1,  difficulty: medium }
+  Q04: { topic: language-basics,  section: 1,  difficulty: medium }
+  Q05: { topic: language-basics,  section: 1,  difficulty: medium }
+  Q06: { topic: language-basics,  section: 1,  difficulty: medium }
+  Q07: { topic: date-time,         section: 2,  difficulty: medium }
+  Q08: { topic: date-time,         section: 2,  difficulty: medium }
+  Q09: { topic: date-time,         section: 2,  difficulty: medium }
+  Q10: { topic: date-time,         section: 2,  difficulty: medium }
+  Q11: { topic: flow-control,      section: 3,  difficulty: medium }
+  Q12: { topic: flow-control,      section: 3,  difficulty: medium }
+  Q13: { topic: flow-control,      section: 3,  difficulty: medium }
+  Q14: { topic: flow-control,      section: 3,  difficulty: medium }
+  Q15: { topic: flow-control,      section: 3,  difficulty: medium }
+  Q16: { topic: oop-classes,       section: 4,  difficulty: medium }
+  Q17: { topic: oop-classes,       section: 4,  difficulty: medium }
+  Q18: { topic: oop-classes,       section: 4,  difficulty: medium }
+  Q19: { topic: oop-classes,       section: 4,  difficulty: medium }
+  Q20: { topic: oop-classes,       section: 4,  difficulty: medium }
+  Q21: { topic: oop-inheritance,   section: 5,  difficulty: medium }
+  Q22: { topic: oop-inheritance,   section: 5,  difficulty: medium }
+  Q23: { topic: oop-inheritance,   section: 5,  difficulty: medium }
+  Q24: { topic: oop-inheritance,   section: 5,  difficulty: medium }
+  Q25: { topic: oop-inheritance,   section: 5,  difficulty: medium }
+  Q26: { topic: oop-inheritance,   section: 5,  difficulty: medium }
+  Q27: { topic: exceptions,        section: 6,  difficulty: medium }
+  Q28: { topic: exceptions,        section: 6,  difficulty: medium }
+  Q29: { topic: exceptions,        section: 6,  difficulty: medium }
+  Q30: { topic: exceptions,        section: 6,  difficulty: medium }
+  Q31: { topic: collections,       section: 7,  difficulty: medium }
+  Q32: { topic: collections,       section: 7,  difficulty: medium }
+  Q33: { topic: collections,       section: 7,  difficulty: medium }
+  Q34: { topic: collections,       section: 7,  difficulty: medium }
+  Q35: { topic: functional,        section: 8,  difficulty: medium }
+  Q36: { topic: functional,        section: 8,  difficulty: medium }
+  Q37: { topic: functional,        section: 8,  difficulty: medium }
+  Q38: { topic: functional,        section: 8,  difficulty: medium }
+  Q39: { topic: streams,           section: 9,  difficulty: medium }
+  Q40: { topic: streams,           section: 9,  difficulty: medium }
+  Q41: { topic: streams,           section: 9,  difficulty: medium }
+  Q42: { topic: streams,           section: 9,  difficulty: medium }
+  Q43: { topic: modules,           section: 10, difficulty: medium }
+  Q44: { topic: modules,           section: 10, difficulty: medium }
+  Q45: { topic: modules,           section: 10, difficulty: medium }
+  Q46: { topic: concurrency,       section: 11, difficulty: medium }
+  Q47: { topic: concurrency,       section: 11, difficulty: medium }
+  Q48: { topic: concurrency,       section: 11, difficulty: medium }
+  Q49: { topic: annotations,       section: 12, difficulty: medium }
+  Q50: { topic: annotations,       section: 12, difficulty: medium }
+answers:
+  Q01: { correctOption: B, format: single-choice }
+  Q02: { correctOption: A, format: single-choice }
+  Q03: { correctOption: B, format: single-choice }
+  Q04: { correctOption: B, format: single-choice }
+  Q05: { correctOption: B, format: single-choice }
+  Q06: { correctOption: C, format: single-choice }
+  Q07: { correctOption: A, format: single-choice }
+  Q08: { correctOption: A, format: single-choice }
+  Q09: { correctOption: D, format: single-choice }
+  Q10: { correctOption: B, format: single-choice }
+  Q11: { correctOption: B, format: single-choice }
+  Q12: { correctOption: A, format: single-choice }
+  Q13: { correctOption: A, format: single-choice }
+  Q14: { correctOption: A, format: single-choice }
+  Q15: { correctOption: B, format: single-choice }
+  Q16: { correctOption: A, format: single-choice }
+  Q17: { correctOption: B, format: single-choice }
+  Q18: { correctOption: C, format: single-choice }
+  Q19: { correctOption: B, format: single-choice }
+  Q20: { correctOption: A, format: single-choice }
+  Q21: { correctOption: A, format: single-choice }
+  Q22: { correctOption: A, format: single-choice }
+  Q23: { correctOption: A, format: single-choice }
+  Q24: { correctOption: A, format: single-choice }
+  Q25: { correctOption: A, format: single-choice }
+  Q26: { correctOption: A, format: single-choice }
+  Q27: { correctOption: A, format: single-choice }
+  Q28: { correctOption: B, format: single-choice }
+  Q29: { correctOption: A, format: single-choice }
+  Q30: { correctOption: C, format: single-choice }
+  Q31: { correctOption: A, format: single-choice }
+  Q32: { correctOption: A, format: single-choice }
+  Q33: { correctOption: A, format: single-choice }
+  Q34: { correctOption: D, format: single-choice }
+  Q35: { correctOption: A, format: single-choice }
+  Q36: { correctOption: A, format: single-choice }
+  Q37: { correctOption: A, format: single-choice }
+  Q38: { correctOption: A, format: single-choice }
+  Q39: { correctOption: A, format: single-choice }
+  Q40: { correctOption: A, format: single-choice }
+  Q41: { correctOption: A, format: single-choice }
+  Q42: { correctOption: A, format: single-choice }
+  Q43: { correctOption: A, format: single-choice }
+  Q44: { correctOption: A, format: single-choice }
+  Q45: { correctOption: A, format: single-choice }
+  Q46: { correctOption: A, format: single-choice }
+  Q47: { correctOption: A, format: single-choice }
+  Q48: { correctOption: B, format: single-choice }
+  Q49: { correctOption: B, format: single-choice }
+  Q50: { correctOption: C, format: single-choice }

@@ -37,7 +37,7 @@ public final class Progress {
     }
 
     public ProgressResult run() {
-        Path progressFile = examsRoot.resolve("docs").resolve("progress.yaml");
+        Path progressFile = projectRoot().resolve("docs").resolve("progress.yaml");
         SplittedDocument split = splitDocument(readProgress(progressFile), progressFile);
 
         List<Attempt> attempts = new ArrayList<>();
@@ -298,8 +298,12 @@ public final class Progress {
         return value instanceof String s && !s.isBlank() ? s : fallback;
     }
 
+    private Path projectRoot() {
+        return examsRoot.getParent() == null ? examsRoot : examsRoot.getParent();
+    }
+
     private Path artifactFile(String sessionId) {
-        return examsRoot.resolve("docs").resolve("study-log").resolve(sessionId + ".analysis.yaml");
+        return projectRoot().resolve("docs").resolve("study-log").resolve(sessionId + ".analysis.yaml");
     }
 
     private String readProgress(Path progressFile) {

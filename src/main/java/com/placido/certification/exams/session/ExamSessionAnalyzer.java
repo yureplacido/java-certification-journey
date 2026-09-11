@@ -140,7 +140,8 @@ public final class ExamSessionAnalyzer {
     }
 
     private Path artifactFile(String sessionId) {
-        return examsRoot.resolve("docs").resolve("study-log").resolve(sessionId + ".analysis.yaml");
+        Path projectRoot = examsRoot.getParent() == null ? examsRoot : examsRoot.getParent();
+        return projectRoot.resolve("docs").resolve("study-log").resolve(sessionId + ".analysis.yaml");
     }
 
     private static ExamSessionStatus parseStatus(Map<String, Object> data, Path file) {

@@ -1,0 +1,233 @@
+"schemaVersion": 1
+"sessionId": "2026-09-10-diagnostic-01"
+"examId": "diagnostic"
+"examVersion": 1
+"status": "ANALYZED"
+"startedAt": "2026-09-10T14:00:00-03:00"
+"lastActivityAt": "2026-09-10T15:00:00-03:00"
+"finishedAt": "2026-09-10T15:00:00-03:00"
+"currentQuestion": "Q01"
+"elapsedSeconds": 3600
+"remainingSeconds": 3600
+"totalQuestions": 50
+"answeredQuestions": 43
+"skippedQuestions": 0
+"visitedQuestions": 43
+"flaggedQuestions": 0
+"questions":
+  "Q01":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q02":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q03":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q04":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q05":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q06":
+    "status": "ANSWERED"
+    "answer": "C"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q07":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q08":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q10":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q11":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q12":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q13":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q14":
+    "status": "ANSWERED"
+    "answer": "C"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q15":
+    "status": "ANSWERED"
+    "answer": "C"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q16":
+    "status": "ANSWERED"
+    "answer": "C"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q17":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q18":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q19":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q20":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q21":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q22":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q23":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q24":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q25":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q27":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q28":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q29":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q30":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q31":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q32":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q33":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q34":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q35":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q36":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q38":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q39":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q40":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q41":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q43":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q47":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q48":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q49":
+    "status": "ANSWERED"
+    "answer": "B"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+  "Q50":
+    "status": "ANSWERED"
+    "answer": "A"
+    "updatedAt": "2026-09-10T14:05:00-03:00"
+"result":
+  "gradedAt": "2026-09-11T10:00:00-03:00"
+  "correct": 30
+  "wrong": 13
+  "unanswered": 7
+  "scorePercent": 60
+  "passing": false
+  "bySection":
+    1:
+      "correct": 5
+      "total": 6
+    2:
+      "correct": 2
+      "total": 4
+    3:
+      "correct": 2
+      "total": 5
+    4:
+      "correct": 2
+      "total": 5
+    5:
+      "correct": 5
+      "total": 6
+    6:
+      "correct": 3
+      "total": 4
+    7:
+      "correct": 2
+      "total": 4
+    8:
+      "correct": 3
+      "total": 4
+    9:
+      "correct": 3
+      "total": 4
+    10:
+      "correct": 1
+      "total": 3
+    11:
+      "correct": 1
+      "total": 3
+    12:
+      "correct": 1
+      "total": 2

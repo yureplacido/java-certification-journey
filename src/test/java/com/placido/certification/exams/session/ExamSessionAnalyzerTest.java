@@ -330,7 +330,7 @@ class ExamSessionAnalyzerTest {
         AnalysisResult first = analyzer.analyze(SESSION_ID);
         Map<String, Object> firstArtifact = SessionYaml.parse(first.artifactFile());
 
-        AnalysisResult second = new ExamSessionAnalyzer(temp, () -> REANALYZE_AT).analyze(SESSION_ID);
+        AnalysisResult second = new ExamSessionAnalyzer(examsRoot(), () -> REANALYZE_AT).analyze(SESSION_ID);
 
         assertEquals(ALREADY_ANALYZED, second.outcome());
         assertEquals(first.artifactFile(), second.artifactFile());
@@ -386,7 +386,7 @@ class ExamSessionAnalyzerTest {
     @Test
     void analyzeWithoutDefinitionSignalsNotFound() throws IOException {
         writeDefinition("mock-01", VALID_DEFINITION);
-        Files.delete(temp.resolve("mock-01").resolve("definition.yaml"));
+        Files.delete(examsRoot().resolve("mock-01").resolve("definition.yaml"));
         seed(SESSION_ID, GRADED, ALL_CORRECT, 4);
 
         ExamSessionException e = assertThrows(ExamSessionException.class,
@@ -447,8 +447,8 @@ class ExamSessionAnalyzerTest {
     @Test
     void analyzeWithCorruptedSessionYamlSignalsInvalidStore() throws IOException {
         writeDefinition("mock-01", VALID_DEFINITION);
-        Files.createDirectories(temp.resolve("sessions"));
-        Files.writeString(temp.resolve("sessions").resolve(SESSION_ID + ".yaml"), "a: [\ninvalid");
+        Files.createDirectories(examsRoot().resolve("sessions"));
+        Files.writeString(examsRoot().resolve("sessions").resolve(SESSION_ID + ".yaml"), "a: [\ninvalid");
 
         ExamSessionException e = assertThrows(ExamSessionException.class,
                 () -> analyzer(ANALYZE_AT).analyze(SESSION_ID));
@@ -464,8 +464,8 @@ class ExamSessionAnalyzerTest {
 
         List<String> files = relativeFiles();
         assertEquals(List.of("docs/study-log/" + SESSION_ID + ".analysis.yaml",
-                "mock-01/definition.yaml",
-                "sessions/" + SESSION_ID + ".yaml"), files);
+                "exams/mock-01/definition.yaml",
+                "exams/sessions/" + SESSION_ID + ".yaml"), files);
     }
 
     private void assertNotAnalyzable(ExamSessionStatus status) throws IOException {
@@ -483,22 +483,26 @@ class ExamSessionAnalyzerTest {
     private void gradedWith(String sessionId, Map<String, Map<String, Object>> questions) throws IOException {
         writeDefinition("mock-01", VALID_DEFINITION);
         seed(sessionId, FINISHED, questions, 4);
-        new ExamSessionGrader(temp, () -> GRADE_AT).grade(sessionId);
+        new ExamSessionGrader(examsRoot(), () -> GRADE_AT).grade(sessionId);
+    }
+
+    private Path examsRoot() {
+        return temp.resolve("exams");
     }
 
     private ExamSessionAnalyzer analyzer(OffsetDateTime now) {
-        return new ExamSessionAnalyzer(temp, () -> now);
+        return new ExamSessionAnalyzer(examsRoot(), () -> now);
     }
 
     private void writeDefinition(String examId, String content) throws IOException {
-        Path dir = temp.resolve(examId);
+        Path dir = examsRoot().resolve(examId);
         Files.createDirectories(dir);
         Files.writeString(dir.resolve("definition.yaml"), content);
     }
 
     private void seed(String sessionId, ExamSessionStatus status,
             Map<String, Map<String, Object>> questions, int totalQuestions) throws IOException {
-        Path sessions = temp.resolve("sessions");
+        Path sessions = examsRoot().resolve("sessions");
         Files.createDirectories(sessions);
         ExamSession session = new ExamSession(1, sessionId, "mock-01", 1, status,
                 STARTED_AT, LAST_ACTIVITY_AT, FINISHED_AT, "Q03",
@@ -549,7 +553,7 @@ class ExamSessionAnalyzerTest {
     }
 
     private Path fileOf(String sessionId) {
-        return temp.resolve("sessions").resolve(sessionId + ".yaml");
+        return examsRoot().resolve("sessions").resolve(sessionId + ".yaml");
     }
 
     private static int count(Map<String, Map<String, Object>> questions, String status) {
