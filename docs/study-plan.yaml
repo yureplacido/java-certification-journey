@@ -1,0 +1,44 @@
+schemaVersion: 1
+
+course:
+  id: java-se-21-certification
+  title: Oracle Certified Professional Java SE 21 Developer
+  exam: 1Z0-830
+
+weeks:
+  - week: 2
+    title: Language Basics + Date-Time
+
+    days:
+      - day: 1
+        title: StringBuilder
+
+        topics:
+          - stringbuilder
+
+        activities:
+          - id: review-q05
+            type: review
+            title: Revisar Q05
+
+          - id: study-stringbuilder
+            type: study
+            title: Estudar StringBuilder
+
+          - id: experiment-stringbuilder
+            type: experiment
+            title: Experimentar StringBuilder
+
+          - id: practice-stringbuilder
+            type: practice
+            title: Praticar StringBuilder
+
+          - id: quiz-stringbuilder
+            type: quiz
+            title: Quiz StringBuilder
+
+        content:
+          - language/stringbuilder-insert-replace.md
+
+        traps:
+          - docs/traps/stringbuilder-insert-replace-indices.md
