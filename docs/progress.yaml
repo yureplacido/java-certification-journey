@@ -33,11 +33,210 @@ topicos:
 # Localization (objetivo oficial) e tratado dentro de datetime/.
 
 exames:
-  diagnostic:   { status: in_progress, data: null, nota: null, relatorio: "exams/diagnostic/" }
-  mock-01:      { status: pending, data: null, nota: null, relatorio: "exams/mock-01/" }
-  mock-02:      { status: pending, data: null, nota: null, relatorio: "exams/mock-02/" }
-  mock-03:      { status: pending, data: null, nota: null, relatorio: "exams/mock-03/" }
-  final:        { status: pending, data: null, nota: null, relatorio: "exams/final/" }
+  "diagnostic":
+    "status": "in_progress"
+    "relatorio": "exams/diagnostic/"
+    "data": "2026-09-11T10:00:00-03:00"
+    "nota": 60
+    "tentativas":
+    - "sessionId": "2026-09-10-diagnostic-01"
+      "examVersion": 1
+      "status": "ANALYZED"
+      "gradedAt": "2026-09-11T10:00:00-03:00"
+      "analyzedAt": "2026-09-11T12:00:00-03:00"
+      "correct": 30
+      "wrong": 13
+      "unanswered": 7
+      "scorePercent": 60
+      "passing": false
+      "sections":
+        1:
+          "correct": 5
+          "total": 6
+        2:
+          "correct": 2
+          "total": 4
+        3:
+          "correct": 2
+          "total": 5
+        4:
+          "correct": 2
+          "total": 5
+        5:
+          "correct": 5
+          "total": 6
+        6:
+          "correct": 3
+          "total": 4
+        7:
+          "correct": 2
+          "total": 4
+        8:
+          "correct": 3
+          "total": 4
+        9:
+          "correct": 3
+          "total": 4
+        10:
+          "correct": 1
+          "total": 3
+        11:
+          "correct": 1
+          "total": 3
+        12:
+          "correct": 1
+          "total": 2
+      "topics":
+        "language-basics":
+          "correct": 5
+          "total": 6
+        "date-time":
+          "correct": 2
+          "total": 4
+        "flow-control":
+          "correct": 2
+          "total": 5
+        "oop-classes":
+          "correct": 2
+          "total": 5
+        "oop-inheritance":
+          "correct": 5
+          "total": 6
+        "exceptions":
+          "correct": 3
+          "total": 4
+        "collections":
+          "correct": 2
+          "total": 4
+        "functional":
+          "correct": 3
+          "total": 4
+        "streams":
+          "correct": 3
+          "total": 4
+        "modules":
+          "correct": 1
+          "total": 3
+        "concurrency":
+          "correct": 1
+          "total": 3
+        "annotations":
+          "correct": 1
+          "total": 2
+    "melhor":
+      "sessionId": "2026-09-10-diagnostic-01"
+      "scorePercent": 60
+      "passing": false
+    "sections":
+      1:
+        "correct": 5
+        "total": 6
+      2:
+        "correct": 2
+        "total": 4
+      3:
+        "correct": 2
+        "total": 5
+      4:
+        "correct": 2
+        "total": 5
+      5:
+        "correct": 5
+        "total": 6
+      6:
+        "correct": 3
+        "total": 4
+      7:
+        "correct": 2
+        "total": 4
+      8:
+        "correct": 3
+        "total": 4
+      9:
+        "correct": 3
+        "total": 4
+      10:
+        "correct": 1
+        "total": 3
+      11:
+        "correct": 1
+        "total": 3
+      12:
+        "correct": 1
+        "total": 2
+    "topics":
+      "language-basics":
+        "correct": 5
+        "total": 6
+      "date-time":
+        "correct": 2
+        "total": 4
+      "flow-control":
+        "correct": 2
+        "total": 5
+      "oop-classes":
+        "correct": 2
+        "total": 5
+      "oop-inheritance":
+        "correct": 5
+        "total": 6
+      "exceptions":
+        "correct": 3
+        "total": 4
+      "collections":
+        "correct": 2
+        "total": 4
+      "functional":
+        "correct": 3
+        "total": 4
+      "streams":
+        "correct": 3
+        "total": 4
+      "modules":
+        "correct": 1
+        "total": 3
+      "concurrency":
+        "correct": 1
+        "total": 3
+      "annotations":
+        "correct": 1
+        "total": 2
+  "mock-01":
+    "status": "pending"
+    "relatorio": "exams/mock-01/"
+    "data": null
+    "nota": null
+    "tentativas": []
+    "melhor": null
+    "sections": {}
+    "topics": {}
+  "mock-02":
+    "status": "pending"
+    "relatorio": "exams/mock-02/"
+    "data": null
+    "nota": null
+    "tentativas": []
+    "melhor": null
+    "sections": {}
+    "topics": {}
+  "mock-03":
+    "status": "pending"
+    "relatorio": "exams/mock-03/"
+    "data": null
+    "nota": null
+    "tentativas": []
+    "melhor": null
+    "sections": {}
+    "topics": {}
+  "final":
+    "status": "pending"
+    "relatorio": "exams/final/"
+    "data": null
+    "nota": null
+    "tentativas": []
+    "melhor": null
+    "sections": {}
+    "topics": {}
 
 java25:
   delta:      { status: pending }
