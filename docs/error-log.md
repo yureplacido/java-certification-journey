@@ -20,6 +20,32 @@ Para cada erro significativo, criar uma entrada:
 
 **_Registros começarão durante o estudo (semana 1 em diante)._**
 
+## 2026-09-13 — language (StringBuilder) — Prática: 2/6 exercícios errados de cabeça
+
+- **Contexto:** exercícios de recálculo de índices após mutações (stringbuilder-practice.md).
+  Ex3 e Ex6 errados na resolução "de cabeça"; ambos validados por execução.
+- **Erro / sintoma:**
+  1. Ex3: respondi `XaYa`; o correto é `XAYa` (original `"Aa"`; `replace(2,2,"Y")` insere antes do `a` minúsculo).
+  2. Ex6: respondi `How's going up?`; o correto é `How's goings up?` — após `insert(5, " going")` a string é `"What' goings up?"` e o `s` final de `What's` permanece.
+- **Causa raiz:** reescrita parcial da string no papel — mantive os caracteres não tocados por memória visual em vez de reconstruir char a char. No Ex6, o recálculo bombeou os índices mas ignorei o `s` remanescente.
+- **Lição:** reescrever a **string inteira** (não só o trecho mutado) após cada operação e conferir que todos os caracteres foram preservados com caixa e conteúdo corretos. Regra idêntica à do Q05: o estado do StringBuilder é a fonte de verdade.
+
+## 2026-09-13 — language (StringBuilder) — Experimentos: 3 suposições falsas sobre replace/insert
+
+- **Contexto:** experimentos JUnit (StringBuilderInsertReplaceTest) para validar casos de
+  borda além do Q05.
+- **Erro / sintoma:** 3 de 10 experimentos falharam na primeira versão:
+  1. assumi que `replace(0, 4, "x")` em `"abc"` lança exceção (end > length) — na JVM real **não lança**: end é truncado.
+  2. assumi que `insert(1, (String) null)` lança NPE — na JVM real insere o texto `"null"`.
+  3. calculei `"banana".replace(1, 3, "or")` como `borona` — o correto é `borana` (índices 1,2 = "an").
+- **Causa raiz:** extrapolei a regra conhecida (end exclusivo) para o caso `end > length`
+  sem verificar; e confundi a semântica de overloads de `insert` (não confundir com o NPE de
+  `String.replace`/append de objeto nulo).
+- **Lição:** confiar no experimento, não na intuição. Regras fixadas (JVM 21.0.2):
+  - `replace(start, end, s)`: `end` acima de `length()` é **truncado**, não lança; `start` inválido lança.
+  - `insert(pos, (String) null)` insere o literal `"null"` (NÃO lança NPE).
+  - refazer o cálculo char a char nos índices antes de afirmar a string resultante.
+
 ## 2026-09-12 — language (StringBuilder) — Diagnostic Q05: insert + replace com índices
 
 - **Contexto:** questão Q05 do diagnóstico — `new StringBuilder("Hello")`, depois

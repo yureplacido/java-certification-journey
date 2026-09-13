@@ -40,3 +40,21 @@ Passo a passo:
 
 Aplicar o `replace` sobre os índices da string original depois de um `insert` e
 esquecer o end exclusivo: `replace(1, 3, ...)` não toca o índice 3.
+
+## Comportamentos verificados em JVM real (experimentos 2026-09-13)
+
+`StringBuilderInsertReplaceTest` (11 casos, JVM 21.0.2) — incluindo 3 surpresas:
+
+- `replace(start, end, s)` com `end` **maior que** `length()` **não lança**:
+  o `end` é truncado ao tamanho da string (`replace(2, 10, "")` em `"abc"` → `"ab"`).
+  Já `start` obedece a `0 <= start <= length()` e `start <= end`, senão
+  `StringIndexOutOfBoundsException`.
+- `insert(pos, (String) null)` **não lança NPE**: insere o texto literal `"null"`.
+  (`"Hello".insert(1, null)` → `"Hnullello"`.)
+- `"banana".replace(1, 3, "or")` (StringBuilder, índices) → `"borana"`; já
+  `"banana".replace("an", "or")` (String, literal, todas as ocorrências) → `"borora"`.
+
+Outros pontos confirmados: `insert(offset, s)` aceita `offset == length()` (equivale a
+`append`); `insert` com offset fora de `[0, length]` lança `StringIndexOutOfBoundsException`;
+`replace(start, end, "")` remove o intervalo (delete via replace); `replace(0, 0, s)` insere
+no início; `start == end` permite inserir no meio de forma idempotente pelo índice.

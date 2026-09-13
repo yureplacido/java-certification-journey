@@ -20,22 +20,84 @@ weeks:
           - id: review-q05
             type: review
             title: Revisar Q05
+            objective: Revisar a questão Q05 do diagnóstico e entender a regra por trás do erro (StringBuilder e intervalo half-open).
+            why: Q05 foi respondida errada (resposta A; gabarito B). Rever o erro evita repeti-lo no exame.
+            tasks:
+              - Analisar a questão Q05 (exams/diagnostic/prova-dia1.md) e minha resposta.
+              - Comparar com o gabarito (exams/diagnostic/answersheet.md) e identificar a regra.
+              - Ler o material relacionado ao tópico.
+              - Executar o exemplo da questão e validar o resultado.
+              - Registrar o erro em docs/error-log.md.
+            completionCriteria:
+              - Regra identificada e explicada.
+              - Exemplo validado com execução real.
+              - Erro registrado no error-log.
 
           - id: study-stringbuilder
             type: study
             title: Estudar StringBuilder
+            objective: Entender como insert() e replace() trabalham com índices e como uma operação altera o estado do StringBuilder.
+            why: Base para deslocamento de conteúdo e intervalo half-open cobrados no exame; origem do erro Q05.
+            tasks:
+              - Ler o material language/stringbuilder-insert-replace.md.
+              - Explicar as regras de insert() e replace().
+              - Executar os exemplos do material.
+              - Criar pelo menos 3 experimentos mínimos (JUnit).
+              - Validar o comportamento com testes.
+              - Revisar o TrapCard de StringBuilder.
+              - Registrar o aprendizado (notas + error-log, se aplicável).
+            completionCriteria:
+              - Material lido e regras explicadas.
+              - Exemplos executados.
+              - Pelo menos 3 experimentos realizados.
+              - Testes executados e passando.
+              - TrapCard revisado.
+              - Aprendizado registrado.
 
           - id: experiment-stringbuilder
             type: experiment
             title: Experimentar StringBuilder
+            objective: Validar na prática como insert() desloca o conteúdo e replace() usa intervalo half-open.
+            why: Confirmar o comportamento com execução real evita confiar apenas na memória.
+            tasks:
+              - Criar experimentos mínimos com StringBuilder (insert e replace encadeados).
+              - Testar casos de borda (índices 0 e length, end exclusivo).
+              - Rodar os experimentos com JUnit.
+              - Registrar os resultados nas notas do tópico.
+            completionCriteria:
+              - Experimentos criados e executados.
+              - Casos de borda validados.
+              - Resultados registrados.
 
           - id: practice-stringbuilder
             type: practice
             title: Praticar StringBuilder
+            objective: Resolver exercícios de insert() e replace() com índices no estilo da certificação.
+            why: Consolidar o automatismo de recalcular índices após operações mutáveis.
+            tasks:
+              - Resolver exercícios sobre índices do StringBuilder.
+              - Resolver de cabeça e validar cada resposta com execução.
+              - Corrigir com o gabarito e anotar erros.
+              - Registrar erros relevantes em docs/error-log.md.
+            completionCriteria:
+              - Exercícios resolvidos.
+              - Respostas validadas com execução.
+              - Erros corrigidos e anotados.
 
           - id: quiz-stringbuilder
             type: quiz
             title: Quiz StringBuilder
+            objective: Avaliar o conhecimento sobre StringBuilder com questões no estilo 1Z0-830.
+            why: Medir o que ficou retido antes de avançar de tópico.
+            tasks:
+              - Gerar 10 questões de múltipla escolha (4 alternativas, uma correta).
+              - Responder sem revelar gabarito antes.
+              - Corrigir e explicar a regra de cada erro.
+              - Registrar erros relevantes no formato do projeto.
+            completionCriteria:
+              - Quiz respondido e corrigido.
+              - Regras dos erros explicadas.
+              - Erros registrados.
 
         content:
           - language/stringbuilder-insert-replace.md

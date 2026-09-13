@@ -1,12 +1,10 @@
 schemaVersion: 1
-
 current:
   week: 2
   day: 1
-
   activities:
     review-q05: completed
-    study-stringbuilder: pending
+    study-stringbuilder: completed
     experiment-stringbuilder: pending
     practice-stringbuilder: pending
     quiz-stringbuilder: pending

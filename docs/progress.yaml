@@ -14,7 +14,7 @@ meta:
 # NUNCA marcar done sem evidencia (testes/notas demonstrando o topico).
 
 topicos:
-  language:     { status: planned }
+  language:     { status: studying, nota: "Semana 2 dia 1: material + trap + error-log atualizados; 11 experimentos JUnit (StringBuilderInsertReplaceTest); pratica 6 exercicios validados por execucao (2/6 errados de cabeca, corrigidos); quiz de 10 questoes gerado (language/stringbuilder-quiz.md) — pendente resolver o quiz sem gabarito" }
   oop:          { status: planned }
   exceptions:   { status: planned }
   generics:     { status: planned }

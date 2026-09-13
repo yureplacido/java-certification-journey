@@ -33,3 +33,18 @@ System.out.println(sb);                        // "Halolo"
 - Sempre reescrever a string no papel após cada operação mutável e recontar índices.
 - Lembrete de tipos: `StringBuilder` (não sincronizado) vs `StringBuffer`
   (sincronizado) — mesma API de índices nos dois.
+
+## Traps adicionais verificadas (quiz 2026-09-13, JVM 21.0.2)
+
+- **Argumentos avaliados antes da mutação:** em `sb.insert(0, sb.charAt(3))` e
+  `sb.replace(0, 0, sb.charAt(2) + "")`, o `charAt(...)` é lido do estado **anterior**
+  à operação — o argumento é avaliado antes de a invocação mutar o `StringBuilder`.
+- **Exceções na cadeia (mensagens reais da JVM 21.0.2):** `delete(1, 0)` em uma
+  string de length 2 lança `StringIndexOutOfBoundsException: Range [1, 0) out of
+  bounds for length 2`; `insert(5, "?")` em length 2 lança
+  `StringIndexOutOfBoundsException: Range [5, 2) out of bounds for length 2`. A
+  exceção interrompe a cadeia — um `System.out.println` posterior nunca executa, e a
+  mensagem expõe o length real naquele momento (útil para conferir o recálculo).
+- **`delete` também trunca `end`:** `sb.delete(1, 5)` em `"21"` (length 2) remove
+  `[1,2)` — o `end` é truncado para `length()`, sem exceção. Só `start < 0`,
+  `start > length()` ou `start > end` lançam.
